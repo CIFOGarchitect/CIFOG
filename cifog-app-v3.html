@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIFOG — Civilian Interoperability Field Operations Guide</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f2f0eb; color: #1a1a1a; line-height: 1.5;
+  }
+  header {
+    background: #1a1a1a; color: #f2ede0; padding: 20px 18px 14px;
+    position: sticky; top: 0; z-index: 10;
+  }
+  header h1 { font-size: 30px; letter-spacing: 0.12em; }
+  header h1 span { color: #ffb000; }
+  header .sub { color: #b8b2a4; font-size: 13px; letter-spacing: 0.06em; margin-top: 2px; }
+  header .motto { color: #ffb000; font-size: 13px; font-style: italic; margin-top: 6px; }
+  #search {
+    width: 100%; margin-top: 14px; padding: 12px 14px; font-size: 17px;
+    border: 1px solid #444; border-radius: 8px; background: #fff; color: #1a1a1a;
+  }
+  nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  nav a {
+    color: #f2ede0; border: 1px solid #555; border-radius: 999px;
+    padding: 6px 14px; font-size: 14px; text-decoration: none;
+  }
+  nav a:active { background: #ffb000; color: #1a1a1a; border-color: #ffb000; }
+  main { max-width: 760px; margin: 0 auto; padding: 16px 14px 40px; }
+  section {
+    background: #fff; border: 1px solid #ddd8ce; border-radius: 10px;
+    padding: 18px; margin-top: 16px;
+  }
+  section h2 {
+    font-size: 19px; letter-spacing: 0.08em; color: #1a1a1a;
+    border-bottom: 3px solid #ffb000; padding-bottom: 6px; margin-bottom: 12px;
+  }
+  section h3 { font-size: 16px; margin: 14px 0 6px; }
+  ul { padding-left: 20px; }
+  li { margin: 6px 0; }
+  .tag { font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th { text-align: left; color: #6b655a; font-size: 12px; letter-spacing: 0.12em; padding: 6px 8px 6px 0; border-bottom: 1px solid #ddd8ce; }
+  td { padding: 9px 8px 9px 0; border-bottom: 1px solid #efede8; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .call { font-weight: 700; letter-spacing: 0.04em; }
+  .freq { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .tablewrap { overflow-x: auto; }
+  .note {
+    background: #fff8e1; border: 1px solid #f0d98c; border-radius: 8px;
+    padding: 10px 12px; font-size: 14px; margin-top: 12px;
+  }
+  .calc { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; margin-top: 12px; }
+  .calc label { font-size: 13px; color: #6b655a; letter-spacing: 0.06em; display: block; }
+  .calc select, .calc input, .calc button {
+    font-size: 17px; padding: 10px 12px; border: 1px solid #ccc; border-radius: 8px; background: #fff;
+  }
+  .calc button { background: #1a1a1a; color: #ffb000; border-color: #1a1a1a; cursor: pointer; }
+  #vecOut { font-size: 17px; font-weight: 700; margin-top: 12px; }
+  #todaySeed { font-size: 15px; margin-top: 8px; }
+  .seedgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 12px; font-size: 14px; }
+  .seedgrid div { background: #f7f5f1; border-radius: 6px; padding: 6px 8px; }
+  .seedgrid b { display: block; font-size: 12px; color: #6b655a; }
+  #noResults {
+    display: none; text-align: center; color: #6b655a; padding: 40px 20px; font-size: 17px;
+  }
+  footer { max-width: 760px; margin: 0 auto; padding: 0 14px 30px; color: #6b655a; font-size: 13px; line-height: 1.6; }
+</style>
+</head>
+<body>
+<header>
+  <h1>📻 CIFOG</h1>
+  <div class="sub">CIVILIAN INTEROPERABILITY FIELD OPERATIONS GUIDE &nbsp;·&nbsp; VERSION 2026.2 &nbsp;·&nbsp; AUTHORITY: THE ARCHITECT</div>
+  <div class="motto">Sophistically simple: complexity is a vulnerability.</div>
+  <input id="search" type="text" placeholder="Search the guide… (try WARPIGEON, PACE, LCAN, 151.625)" autocomplete="off">
+  <nav>
+    <a href="#fundamentals">Fundamentals</a>
+    <a href="#doctrine">Doctrine</a>
+    <a href="#pace">PACE</a>
+    <a href="#channels">Channels</a>
+    <a href="#vector">Vector</a>
+    <a href="#status">Status</a>
+    <a href="#roles">Roles</a>
+    <a href="#procedures">Procedures</a>
+    <a href="#programming">Programming</a>
+    <a href="#readiness">Readiness</a>
+    <a href="#watchouts">Watch-Outs</a>
+    <a href="#glossary">Glossary</a>
+    <a href="#regions">Regions</a>
+  </nav>
+</header>
+<main>
+  <div class="note"><b>LICENSING &amp; USE:</b> This guide teaches and organizes. It does not authorize anyone to transmit on any frequency. Use only the frequencies and services you are authorized for, under the rules of that service, with the proper FCC authorization or licensing. Channels listed for monitoring are receive-only: listen, do not transmit.</div>
+  <section id="fundamentals" data-s>
+    <h2>FUNDAMENTALS</h2>
+    <p>Interoperability means this: different people, with different radios, can still talk to each other when it matters.</p>
+    <h3>The escalation ladder</h3>
+    <p>Work from the top down; stop at the first method that works:</p>
+    <ol>
+      <li class="s-item">Face to face, where possible.</li>
+      <li class="s-item">Your local, everyday method (cell, mesh, home).</li>
+      <li class="s-item">A shared system your group already uses.</li>
+      <li class="s-item">A mutual-aid channel both sides have (the Vanguard channels).</li>
+      <li class="s-item">A gateway or patch between two systems, if one is available.</li>
+      <li class="s-item">A cache radio handed to someone who needs one.</li>
+      <li class="s-item">A relay: a person carries the message.</li>
+    </ol>
+    <h3>Rules that make it work</h3>
+    <ul>
+      <li class="s-item"><span class="tag">PACE:</span> Primary, Alternate, Contingency, Emergency — always have a backup to the backup, and know what it is before you need it.</li>
+      <li class="s-item"><span class="tag">Same names in every radio.</span> Every radio programs these channels with identical names. Different names means confusion, not interoperability.</li>
+      <li class="s-item"><span class="tag">A tone is not privacy.</span> DPL and CTCSS only filter what your speaker plays. Anyone on the frequency hears you.</li>
+      <li class="s-item"><span class="tag">Say who you are first.</span> Group and identifier before your message, every time.</li>
+      <li class="s-item"><span class="tag">Strict net control, someone always listening.</span> One station runs the net; one keeps watch on WARPIGEON during any activation.</li>
+      <li class="s-item"><span class="tag">How to read a channel entry:</span> callsign, frequency, tone/DPL, mode, purpose. Example: WARPIGEON — 151.625 MHz, DPL 023, analog narrowband, command and calling.</li>
+    </ul>
+  </section>
+  <section id="doctrine" data-s>
+    <h2>I. OPERATIONAL DOCTRINE</h2>
+    <h3>1.1 Radio Etiquette</h3>
+    <ul>
+      <li class="s-item"><span class="tag">LISTEN FIRST:</span> Monitor for 30 seconds before transmitting.</li>
+      <li class="s-item"><span class="tag">1-SECOND RULE:</span> Key the mic, wait 1 second, then speak.</li>
+      <li class="s-item"><span class="tag">PLAIN LANGUAGE:</span> No 10-codes. Use: Copy, Affirmative, Negative, Wait, Say Again.</li>
+    </ul>
+    <h3>1.2 LCAN Reporting Format</h3>
+    <p>Use this structure for all status updates:</p>
+    <ul>
+      <li class="s-item"><span class="tag">L — Location:</span> Your current position.</li>
+      <li class="s-item"><span class="tag">C — Conditions:</span> Fire, Medical, Flood, or All Clear.</li>
+      <li class="s-item"><span class="tag">A — Actions:</span> What you are doing now.</li>
+      <li class="s-item"><span class="tag">N — Needs:</span> Resources required.</li>
+    </ul>
+    <div class="note"><b>Worked example:</b> "WARPIGEON, this is [group] [identifier] — Location: north trailhead parking lot. Conditions: All Clear. Actions: moving to checkpoint two. Needs: none."</div>
+  </section>
+
+  <section id="pace" data-s>
+    <h2>II. PERSONAL ADAPTIVE COMMS (PACE)</h2>
+    <p><em>Failure to plan is planning to fail.</em></p>
+    <div class="tablewrap"><table>
+      <tr><th>LEVEL</th><th>METHOD</th><th>CHANNEL / FREQ</th><th>TONE</th></tr>
+      <tr class="s-item"><td><b>P — PRIMARY</b></td><td>Local/Daily</td><td>Cell / Mesh / Home</td><td>N/A</td></tr>
+      <tr class="s-item"><td><b>A — ALTERNATE</b></td><td>Vanguard 01</td><td>151.625 MHz</td><td>DPL 023</td></tr>
+      <tr class="s-item"><td><b>C — CONTINGENCY</b></td><td>3-3-3 Rule</td><td>MURS 3 / GMRS 3</td><td>CSQ</td></tr>
+      <tr class="s-item"><td><b>E — EMERGENCY</b></td><td>Interop Monitor</td><td>VTAC11 / UTAC1</td><td>RX ONLY</td></tr>
+    </table></div>
+    <div class="note"><b>THE 3-3-3 RULE:</b> On the 3rd hour, tune to CH 3, listen/transmit for 3 minutes.</div>
+  </section>
+
+  <section id="channels" data-s>
+    <h2>III. THE VANGUARD 16 (TACTICAL OVERLAY)</h2>
+    <p>Standardized analog tactical zone. All channels analog NFM, DPL tones as listed.</p>
+    <div class="tablewrap"><table>
+      <tr><th>CH</th><th>CALLSIGN</th><th>FREQ (MHz)</th><th>DPL</th><th>PURPOSE</th></tr>
+      <tbody id="chRows">
+      <tr class="s-item"><td>01</td><td class="call">WARPIGEON</td><td class="freq">151.625</td><td>023</td><td>COMMAND: Main Muster/Calling</td></tr>
+      <tr class="s-item"><td>02</td><td class="call">PRIVATE 1</td><td class="freq">151.820</td><td>023</td><td>User Defined Family Channel 1</td></tr>
+      <tr class="s-item"><td>03</td><td class="call">PRIVATE 2</td><td class="freq">151.880</td><td>023</td><td>User Defined Family Channel 2</td></tr>
+      <tr class="s-item"><td>04</td><td class="call">RAZORBACK</td><td class="freq">151.505</td><td>032</td><td>LOGISTICS: Convoy/Heavy Equipment</td></tr>
+      <tr class="s-item"><td>05</td><td class="call">GHOSTWALK</td><td class="freq">154.5275</td><td>043</td><td>TECH OPS: Setup &amp; Testing</td></tr>
+      <tr class="s-item"><td>06</td><td class="call">NIGHTHAWK</td><td class="freq">464.500</td><td>047</td><td>INDOOR: Deep-structure/Industrial</td></tr>
+      <tr class="s-item"><td>07</td><td class="call">BULLSEYE</td><td class="freq">464.550</td><td>051</td><td>SECURITY: Gate &amp; Perimeter</td></tr>
+      <tr class="s-item"><td>08</td><td class="call">VULCAN</td><td class="freq">469.500</td><td>054</td><td>Vanguard Maintenance</td></tr>
+      <tr class="s-item"><td>09</td><td class="call">COBALT</td><td class="freq">469.550</td><td>065</td><td>Vanguard Admin</td></tr>
+      <tr class="s-item"><td>10</td><td class="call">SABRE</td><td class="freq">151.700</td><td>071</td><td>Vanguard Perimeter</td></tr>
+      <tr class="s-item"><td>11</td><td class="call">VORTEX</td><td class="freq">151.760</td><td>072</td><td>Vanguard Alert</td></tr>
+      <tr class="s-item"><td>12</td><td class="call">RAPTOR</td><td class="freq">467.7625</td><td>073</td><td>Vanguard Courier</td></tr>
+      <tr class="s-item"><td>13</td><td class="call">TITAN</td><td class="freq">467.8125</td><td>074</td><td>Vanguard PM</td></tr>
+      <tr class="s-item"><td>14</td><td class="call">REVENANT</td><td class="freq">151.895</td><td>114</td><td>Vanguard Shadow</td></tr>
+      <tr class="s-item"><td>15</td><td class="call">OVERLORD</td><td class="freq">151.925</td><td>115</td><td>ALL-CALL: Emergency Muster</td></tr>
+      <tr class="s-item"><td>16</td><td class="call">BLACKOUT</td><td class="freq">154.600</td><td>116</td><td>SILENCE: Emergency Protocol</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="vector" data-s>
+    <h2>IV. VANGUARD AUTHENTICATION &amp; VECTOR MATRIX</h2>
+    <p><em>"The signal is the truth. The seed is the key."</em> To shift channels securely, Overlord broadcasts a <b>Vector</b>. Add the Vector to the <b>Daily Seed</b> to find the target channel. (Formula: Vector + Seed = Channel)</p>
+    <div id="todaySeed"></div>
+    <div class="calc">
+      <div><label for="daySel">Day of month</label><select id="daySel"></select></div>
+      <div><label for="vecInput">Vector (as broadcast)</label><input id="vecInput" type="number" min="1" max="31" inputmode="numeric" placeholder="e.g. 3"></div>
+      <button id="calcBtn">Compute channel</button>
+    </div>
+    <div id="vecOut"></div>
+    <h3>Daily seeds (from the Vanguard Authentication Key Card)</h3>
+    <div class="seedgrid" id="seedGrid"></div>
+    <div class="note">Complete 31-day table, matching the guide README and the Vanguard Authentication Key Card.</div>
+  </section>
+
+  <section id="status" data-s>
+    <h2>STATUS CODES</h2>
+    <p>From the Vanguard Authentication Key Card. Report status by code over the air.</p>
+    <ul>
+      <li class="s-item"><span class="tag">10 — Green:</span> Normal</li>
+      <li class="s-item"><span class="tag">20 — Yellow:</span> Instability</li>
+      <li class="s-item"><span class="tag">30 — Orange:</span> Emergency</li>
+      <li class="s-item"><span class="tag">40 — Red:</span> Grid Down</li>
+      <li class="s-item"><span class="tag">99 — Black:</span> Threat/Silence</li>
+    </ul>
+  </section>
+
+  <section id="roles" data-s>
+    <h2>GROUP ROLES &amp; NET CONTROL</h2>
+    <ul>
+      <li class="s-item"><span class="tag">OVERLORD (net control):</span> Runs the net. Declares all-calls and silence, broadcasts Vectors, lifts silence, stands the net down. One net control per net.</li>
+      <li class="s-item"><span class="tag">Monitor:</span> Keeps a listening watch on WARPIGEON during any activation and logs traffic.</li>
+      <li class="s-item"><span class="tag">Logger:</span> Keeps the written log: times, stations, messages, problems.</li>
+      <li class="s-item"><span class="tag">Tech:</span> Keeps every group radio programmed alike, charged, and tested. Owns the cache.</li>
+      <li class="s-item"><span class="tag">Every member:</span> Knows the plan, keeps their keycard current, checks in when called.</li>
+    </ul>
+    <h3>Net-control checklist</h3>
+    <ul>
+      <li class="s-item">Get briefed. Assign a monitor. Post the channel plan. Keep a log. Brief your relief. Document problems.</li>
+    </ul>
+    <h3>Adopting CIFOG as a group</h3>
+    <p>Agree on the plan and its version, program every radio alike, name the roles and backups, set a test cadence, review changes together. When the guide version changes, re-print the keycards.</p>
+    <h3>When groups merge</h3>
+    <p>Agree on three things before operating together: one net control, one common channel plan, and how callsigns work across groups. Then operate as one net.</p>
+  </section>
+
+  <section id="procedures" data-s>
+    <h2>ACTIVATION &amp; PROCEDURES</h2>
+    <h3>Activation sequence</h3>
+    <ol>
+      <li class="s-item">Need identified — a member or net control calls for activation.</li>
+      <li class="s-item">Verify a common channel — every station confirms it has the current plan before anyone moves.</li>
+      <li class="s-item">Check in on WARPIGEON, group and identifier first.</li>
+      <li class="s-item">Net control posts the working channel(s) and the plan.</li>
+      <li class="s-item">Operate — net control directs traffic; all others wait for direction.</li>
+      <li class="s-item">Stand down — net control announces return to normal operations, stations acknowledge, activation is logged.</li>
+    </ol>
+    <h3>All-call (OVERLORD)</h3>
+    <p>When OVERLORD declares an all-call, all stations switch to channel 15 (OVERLORD) and check in. Net control directs traffic from there.</p>
+    <h3>Silence (BLACKOUT)</h3>
+    <p>When OVERLORD declares silence, all stations cease transmitting immediately and monitor channel 16 (BLACKOUT) until OVERLORD lifts silence. The only exception is immediate life-safety traffic.</p>
+    <h3>Vector procedure</h3>
+    <p>OVERLORD broadcasts the Vector in plain language on the active net channel ("Vector 3"). Each station adds the Vector to today's seed and switches to the resulting channel. If the result is not a valid channel (1–16), disregard it and await a corrected Vector — do not guess, and do not wrap around.</p>
+    <h3>Stand-down and after-action</h3>
+    <p>Every activation and exercise ends twice: on the air (net control stands the net down) and on paper (a short hot wash: what worked, what didn't, what changes).</p>
+    <h3>Testing cadence</h3>
+    <p>Brief weekly check-in on WARPIGEON; monthly net exercising one PACE fallback; cache radios checked monthly.</p>
+    <h3>Troubleshooting</h3>
+    <p>Can't reach the group? Check channel, tone, battery, antenna, position. Fall back per PACE. Relay through another station. Then fall to contingency at the next 3-3-3 window. Work the ladder — never sit on a dead channel hoping.</p>
+  </section>
+
+  <section id="programming" data-s>
+    <h2>PROGRAMMING &amp; EQUIPMENT</h2>
+    <ul>
+      <li class="s-item"><span class="tag">Programming template:</span> Every group radio gets the full Vanguard zone with identical names. Family PRIVATE channels are added on top — never instead of the base. Verify by read-back after programming and after any change.</li>
+      <li class="s-item"><span class="tag">Group cache:</span> A box of charged spares, programmed identically, stored in a known place, with a named keeper and a checkout/return log. Checked monthly.</li>
+      <li class="s-item"><span class="tag">Asset list:</span> One page — member, callsign, radio(s), bands, mobile or portable, vehicle rig, notes. Update when gear changes.</li>
+      <li class="s-item"><span class="tag">Amateur radio bridge:</span> Licensed amateurs and volunteer groups are a real resource: wider nets, repeaters, experienced operators. Know your local clubs and repeaters through current directories. Transmitting on amateur bands requires an amateur license.</li>
+    </ul>
+  </section>
+
+  <section id="readiness" data-s>
+    <h2>READINESS SELF-ASSESSMENT</h2>
+    <p>Grade your group honestly. Any unchecked box is your next job.</p>
+    <ul>
+      <li class="s-item">Written plan adopted, with a named net control and backup.</li>
+      <li class="s-item">Every radio programmed alike, names identical, tested on the air.</li>
+      <li class="s-item">Keycards printed, current, matching the guide version.</li>
+      <li class="s-item">Cache charged, tested, keeper named.</li>
+      <li class="s-item">Every PACE level exercised at least once in practice.</li>
+      <li class="s-item">Test cadence running: weekly check-in, monthly net.</li>
+      <li class="s-item">Log habit: activations and exercises logged.</li>
+      <li class="s-item">After-action habit: hot wash after every exercise and activation.</li>
+      <li class="s-item">Version control: the group knows which version it runs.</li>
+      <li class="s-item">Fallback for total radio failure: runners, meeting points, the relay step.</li>
+    </ul>
+  </section>
+
+  <section id="watchouts" data-s>
+    <h2>WATCH-OUTS</h2>
+    <ul>
+      <li class="s-item"><span class="tag">Congestion:</span> Too many voices on one channel. Net control directs; everyone else waits.</li>
+      <li class="s-item"><span class="tag">Unfamiliar radio:</span> You cannot run what you have never practiced on.</li>
+      <li class="s-item"><span class="tag">Unclear assignments:</span> If you don't know your job, ask before transmitting.</li>
+      <li class="s-item"><span class="tag">Dead zones:</span> Buildings, garages, and valleys kill signal. Move, elevate, or relay.</li>
+      <li class="s-item"><span class="tag">No net control:</span> Two nets on one channel with nobody directing is not a net.</li>
+      <li class="s-item"><span class="tag">Different words:</span> Different terms for the same thing cause confusion. Plain language, always.</li>
+      <li class="s-item"><span class="tag">Dead batteries and untested gear:</span> Check before you need it.</li>
+      <li class="s-item"><span class="tag">Assuming privacy:</span> DPL and CTCSS are not encryption. Anyone on the frequency hears you.</li>
+      <li class="s-item"><span class="tag">Programming at the incident:</span> Multiple people reprogramming creates mismatched radios.</li>
+      <li class="s-item"><span class="tag">Too few channels:</span> If the working channel is busy, net control moves traffic — don't pile on.</li>
+    </ul>
+  </section>
+
+  <section id="glossary" data-s>
+    <h2>GLOSSARY</h2>
+    <ul>
+      <li class="s-item"><span class="tag">Cache:</span> Spare radios and equipment held in reserve for issue.</li>
+      <li class="s-item"><span class="tag">Callsign:</span> The name a station uses on the air.</li>
+      <li class="s-item"><span class="tag">CSQ:</span> Carrier squelch — no tone or code; any signal opens the speaker.</li>
+      <li class="s-item"><span class="tag">CTCSS:</span> Continuous Tone-Coded Squelch System — sub-audible tone squelch. Filtering, not privacy.</li>
+      <li class="s-item"><span class="tag">Direct / simplex:</span> Radio-to-radio without a repeater (talk-around).</li>
+      <li class="s-item"><span class="tag">DPL:</span> Digital Private Line — digital squelch code. Filtering, not privacy, not encryption.</li>
+      <li class="s-item"><span class="tag">Gateway / patch:</span> A connection between two systems or channels so users on each can hear each other.</li>
+      <li class="s-item"><span class="tag">GMRS:</span> General Mobile Radio Service — licensed UHF service for families and groups.</li>
+      <li class="s-item"><span class="tag">ICS / NIMS:</span> Incident Command System / National Incident Management System — the standard framework for managing incidents.</li>
+      <li class="s-item"><span class="tag">Keycard:</span> The printed card carrying the seed table and status codes, kept with the radio.</li>
+      <li class="s-item"><span class="tag">LCAN:</span> Location, Conditions, Actions, Needs — the status report format.</li>
+      <li class="s-item"><span class="tag">MURS:</span> Multi-Use Radio Service — license-free VHF short-range service.</li>
+      <li class="s-item"><span class="tag">Muster:</span> A gathering or check-in, on the air or in person.</li>
+      <li class="s-item"><span class="tag">Net control:</span> The station directing traffic on a net (in CIFOG, OVERLORD).</li>
+      <li class="s-item"><span class="tag">NFM:</span> Narrowband FM — the voice mode used by the Vanguard channels.</li>
+      <li class="s-item"><span class="tag">NIFOG:</span> National Interoperability Field Operations Guide (CISA) — the national model CIFOG adapts for civilian use.</li>
+      <li class="s-item"><span class="tag">PACE:</span> Primary, Alternate, Contingency, Emergency — a layered plan so losing one method never leaves you with nothing.</li>
+      <li class="s-item"><span class="tag">Repeater:</span> A station that receives and retransmits signals to extend range.</li>
+      <li class="s-item"><span class="tag">Seed:</span> The daily number from the keycard, added to a broadcast Vector to find the target channel.</li>
+      <li class="s-item"><span class="tag">Vector:</span> A number broadcast by OVERLORD; Vector + Seed = Channel.</li>
+      <li class="s-item"><span class="tag">VTAC / UTAC:</span> National interoperability tactical channel names. V = VHF, U = UHF; TAC = tactical. In CIFOG's PACE these are monitor-only for civilians: listen, do not transmit.</li>
+    </ul>
+  </section>
+
+  <section id="regions" data-s>
+    <h2>REGIONS</h2>
+    <p class="s-item">Region 1 — no content published yet (Region1.md is empty in the repo). Region codeplugs live in the repo's Regions/Codeplugs folder.</p>
+  </section>
+
+  <div id="noResults">No matches in the guide. Try a callsign, a frequency, or a word like PACE or LCAN.</div>
+</main>
+<footer>
+  Content mirrors CIFOG 2026.1-MASTER (CIFOGarchitect/CIFOG). Channel data from Vanguard16_Master.csv; doctrine and PACE from the guide README; the full 31-day seed table and status codes from the Vanguard Authentication Key Card. This page works offline once loaded — no account, no tracking, nothing leaves your phone.
+</footer>
+<script>
+(function () {
+  var SEEDS = {1:4, 2:12, 3:7, 4:1, 5:10, 6:3, 7:14, 8:5, 9:11, 10:6, 11:9, 12:2, 13:15, 14:6, 15:13, 16:1, 17:8, 18:12, 19:4, 20:15, 21:3, 22:11, 23:8, 24:14, 25:5, 26:10, 27:2, 28:9, 29:7, 30:13, 31:1};
+  var CHANNELS = {
+    1: ['WARPIGEON', '151.625', '023'], 2: ['PRIVATE 1', '151.820', '023'],
+    3: ['PRIVATE 2', '151.880', '023'], 4: ['RAZORBACK', '151.505', '032'],
+    5: ['GHOSTWALK', '154.5275', '043'], 6: ['NIGHTHAWK', '464.500', '047'],
+    7: ['BULLSEYE', '464.550', '051'], 8: ['VULCAN', '469.500', '054'],
+    9: ['COBALT', '469.550', '065'], 10: ['SABRE', '151.700', '071'],
+    11: ['VORTEX', '151.760', '072'], 12: ['RAPTOR', '467.7625', '073'],
+    13: ['TITAN', '467.8125', '074'], 14: ['REVENANT', '151.895', '114'],
+    15: ['OVERLORD', '151.925', '115'], 16: ['BLACKOUT', '154.600', '116']
+  };
+
+  // Search: sections show/hide on their own text; channel rows narrow individually.
+  var searchInput = document.getElementById('search');
+  var noResults = document.getElementById('noResults');
+  function onSearch() {
+    var q = searchInput.value.trim().toLowerCase();
+    var anyVisible = false;
+    document.querySelectorAll('section[data-s]').forEach(function (sec) {
+      var show = !q || sec.textContent.toLowerCase().indexOf(q) !== -1;
+      sec.style.display = show ? '' : 'none';
+      if (show) anyVisible = true;
+    });
+    document.querySelectorAll('#chRows tr').forEach(function (tr) {
+      if (!q) { tr.style.display = ''; return; }
+      tr.style.display = tr.textContent.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+    });
+    noResults.style.display = (!q || anyVisible) ? 'none' : '';
+  }
+  searchInput.addEventListener('input', onSearch);
+
+  // Vector calculator.
+  var daySel = document.getElementById('daySel');
+  for (var d = 1; d <= 31; d++) {
+    var opt = document.createElement('option');
+    opt.value = d; opt.textContent = d;
+    daySel.appendChild(opt);
+  }
+  var today = new Date().getDate();
+  daySel.value = today;
+  var todaySeedEl = document.getElementById('todaySeed');
+  todaySeedEl.textContent = SEEDS[today]
+    ? "Today is day " + today + " — today's seed is " + SEEDS[today] + "."
+    : "Today is day " + today + " — no seed published for today yet.";
+  var seedGrid = document.getElementById('seedGrid');
+  for (var day = 1; day <= 31; day++) {
+    var cell = document.createElement('div');
+    var b = document.createElement('b'); b.textContent = 'DAY ' + day;
+    cell.appendChild(b);
+    cell.appendChild(document.createTextNode(SEEDS[day] !== undefined ? String(SEEDS[day]) : '—'));
+    seedGrid.appendChild(cell);
+  }
+  function calcVector() {
+    var day = parseInt(daySel.value, 10);
+    var vec = parseInt(document.getElementById('vecInput').value, 10);
+    var out = document.getElementById('vecOut');
+    if (SEEDS[day] === undefined) {
+      out.textContent = 'No seed published for day ' + day + ' yet.';
+      return;
+    }
+    if (isNaN(vec)) {
+      out.textContent = 'Enter a Vector to compute the target channel.';
+      return;
+    }
+    var ch = SEEDS[day] + vec;
+    if (ch < 1 || ch > 16) {
+      out.textContent = 'Seed ' + SEEDS[day] + ' + Vector ' + vec + ' = ' + ch +
+        ' — outside the 1–16 channel range. The guide does not specify wraparound.';
+      return;
+    }
+    var c = CHANNELS[ch];
+    out.textContent = 'Seed ' + SEEDS[day] + ' + Vector ' + vec + ' = Channel ' + ch +
+      ' — ' + c[0] + ' (' + c[1] + ' MHz, DPL ' + c[2] + ').';
+  }
+  document.getElementById('calcBtn').addEventListener('click', calcVector);
+  document.getElementById('vecInput').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') calcVector();
+  });
+  daySel.addEventListener('change', function () {
+    var day = parseInt(daySel.value, 10);
+    todaySeedEl.textContent = SEEDS[day] !== undefined
+      ? 'Day ' + day + ' — seed is ' + SEEDS[day] + '.'
+      : 'Day ' + day + ' — no seed published for this day yet.';
+  });
+})();
+</script>
+</body>
+</html>
